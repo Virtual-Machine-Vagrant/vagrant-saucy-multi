@@ -20,6 +20,10 @@ None of this would be possible without standing on the shoulders of intellectual
 
 ## @TODO Add Detailed instructions
 
-Once the file is downloaded, run vagrant up from the vagrant-saucy-multi directory
+Once the file is downloaded, download the ubuntu saucy box
+
+http://glazzies.net/ubuntu_saucy_64_x86.box
+
+```vagrant add box ubuntu_saucy_64_x86 ubuntu_saucy_64_x86.box```
 
 ```vagrant up```
