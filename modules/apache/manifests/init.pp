@@ -29,6 +29,9 @@ class apache {
      ensure => present,
      source => "/vagrant/modules/apache/conf/apache2.conf",
      require => Package["apache2"],
+     owner => "root",
+     group => "root",
+     mode => 644,
    }
 
   # create directory

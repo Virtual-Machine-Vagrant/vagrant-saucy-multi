@@ -10,8 +10,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Config Web Server
   config.vm.define "web", primary: true do |web|
     # Run vm on lan and set mac address
-    # web.vm.network "public_network", :bridge => 'eth0', :mac => "5CA1AB1E0001"
-    config.vm.network :private_network, ip: "192.168.44.10"
+    web.vm.network "public_network", :bridge => 'eth0', :mac => "5CA1AB1E0001"
+    # web.vm.network :private_network, ip: "192.168.44.10"
+
+    # Uncomment if you want to forward port 80 to 8888
     web.vm.network :forwarded_port, guest: 80, host: 8888
 
     web.vm.host_name = "web01.local"
@@ -27,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   end
 
-  # config for the mysql db server box
+  # config for the database server
   config.vm.define "db" do |db|
     # config.vm.network "public_network", :bridge => 'eth0', :mac => "5CA1AB1E0002"
     config.vm.network :private_network, ip: "192.168.44.11"
@@ -42,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # config for the mongodb server box
+  # config for the mongodb server
   config.vm.define "mongo" do |mongo|
     # config.vm.network "public_network", :bridge => 'eth0', :mac => "5CA1AB1E0003"
     mongo.vm.network :private_network, ip: "192.168.44.12"
@@ -53,6 +55,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       puppet.module_path = "modules"
     end
     mongo.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+  end
+  # config for the video server
+  config.vm.define "video" do |video|
+    # config.vm.network "public_network", :bridge => 'eth0', :mac => "5CA1AB1E0004"
+    video.vm.network :private_network, ip: "192.168.44.13"
+    video.vm.host_name = "video.local"
+    video.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests"
+      puppet.manifest_file = "video.pp"
+      puppet.module_path = "modules"
+    end
+    video.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
   end
